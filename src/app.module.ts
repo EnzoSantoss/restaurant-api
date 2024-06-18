@@ -3,12 +3,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 //Modules
-import { UserModule } from './application/user/user.module';
-import { FoodModule } from './application/food/food.module';
+import { UserModule } from './infrastructure/modules/user.module';
+import { FoodModule } from './infrastructure/modules/food.module';
 
 //Type Orm
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './infrastructure/database/type_orm/user.model';
+import { User } from './infrastructure/database/models/user.model';
 
 @Module({
   imports: [
