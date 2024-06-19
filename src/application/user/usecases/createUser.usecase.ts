@@ -13,6 +13,6 @@ export class CreateUserUseCase {
   async execute(data: any) {
     //usar a entidade
 
-    await this.userRepository.create(data);
+    return await this.userRepository.create(data);
   }
 }

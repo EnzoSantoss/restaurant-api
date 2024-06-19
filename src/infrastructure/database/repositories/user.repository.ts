@@ -1,5 +1,5 @@
 //Nest Imports
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 //Models
 import { User } from '../models/user.model';
@@ -19,7 +19,7 @@ export class UserTypeOrmRepository implements IUserRepository {
 
   async create(data: any) {
     console.log(data);
-    //return await this.userRepository.save(this.userRepository.create(data));
+    return await this.userRepository.save(this.userRepository.create(data));
   }
   findAll() {}
   findById(user_id: number) {}

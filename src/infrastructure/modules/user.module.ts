@@ -1,17 +1,15 @@
 //Nest Imports
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 //Controller
 import { UserController } from '../../application/user/controller/user.controller';
-
-//Module
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 //Models
 import { User } from '../database/models/user.model';
 
 //Repositories
-import { UserTypeOrmRepository } from '../database/repositories/user.repositoy';
+import { UserTypeOrmRepository } from '../database/repositories/user.repository';
 
 //Use Cases
 import { CreateUserUseCase } from 'src/application/user/usecases/createUser.usecase';
