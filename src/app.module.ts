@@ -6,9 +6,11 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './infrastructure/modules/user.module';
 import { FoodModule } from './infrastructure/modules/food.module';
 
-//Type Orm
+//TypeOrm
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './infrastructure/database/models/user.model';
+import { Food } from './infrastructure/database/models/food.model';
+import { Order } from './infrastructure/database/models/order.model';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { User } from './infrastructure/database/models/user.model';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User],
+      entities: [User, Food, Order],
       synchronize: true,
     }),
   ],
