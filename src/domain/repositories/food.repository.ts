@@ -1,6 +1,6 @@
 export interface IFoodRepository {
   create(data: any): any;
-  findById(user_id: number): any;
+  findById(food_id: number): any;
   findAll(): any;
-  update(data: any): any;
+  update(food_id: number, data: any): any;
 }

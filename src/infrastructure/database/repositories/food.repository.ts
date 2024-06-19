@@ -20,7 +20,23 @@ export class FoodTypeOrmRepository {
     console.log(data);
     return await this.foodRepository.save(this.foodRepository.create(data));
   }
-  //   findAll() {}
-  //   findById(user_id: number) {}
-  //   update(data: any) {}
+  async findAll() {
+    return await this.foodRepository.find();
+  }
+  async findById(food_id: number) {
+    return await this.foodRepository.findOne({
+      where: {
+        food_id,
+      },
+    });
+  }
+  async update(food_id: number, data: any) {
+    await this.foodRepository.update(food_id, data);
+
+    return await this.foodRepository.findOne({
+      where: {
+        food_id,
+      },
+    });
+  }
 }

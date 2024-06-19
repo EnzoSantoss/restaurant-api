@@ -15,25 +15,36 @@ import { UpdateFoodDto } from './dto/update-food.dto';
 
 //Use Cases
 import { CreateFoodUseCase } from '../usecases/createFood.usecase';
+import { FindFoodUseCase } from '../usecases/findFoods.usecase';
+import { FindFoodByIdUseCase } from '../usecases/findFoodById.usecase';
+import { UpdateFoodUseCase } from '../usecases/updateFood.usecase';
 
 @Controller('food')
 export class FoodController {
-  constructor(private readonly createFoodUseCase: CreateFoodUseCase) {}
+  constructor(
+    private readonly createFoodUseCase: CreateFoodUseCase,
+    private readonly findFoodUseCase: FindFoodUseCase,
+    private readonly findFoodByIdUseCase: FindFoodByIdUseCase,
+    private readonly updateFoodUseCase: UpdateFoodUseCase,
+  ) {}
 
   @Post()
   create(@Body() createFoodDto: CreateFoodDto) {
     return this.createFoodUseCase.execute(createFoodDto);
   }
 
-  // @Get()
-  // findAll() {}
+  @Get()
+  findAll() {
+    return this.findFoodUseCase.execute();
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {}
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.findFoodByIdUseCase.execute(id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateFoodDto: UpdateFoodDto) {}
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {}
+  @Patch(':id')
+  update(@Param('id') id: number, @Body() updateFoodDto: UpdateFoodDto) {
+    return this.updateFoodUseCase.execute(id, updateFoodDto);
+  }
 }
