@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 //Modules
 import { UserModule } from './infrastructure/modules/user.module';
 import { FoodModule } from './infrastructure/modules/food.module';
+import { OrderModule } from './infrastructure/modules/order.module';
 
 //TypeOrm
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -17,6 +18,7 @@ import { Order } from './infrastructure/database/models/order.model';
     ConfigModule.forRoot(),
     UserModule,
     FoodModule,
+    OrderModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,

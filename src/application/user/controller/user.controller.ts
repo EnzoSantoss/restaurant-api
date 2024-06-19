@@ -1,3 +1,4 @@
+//Nest Imports
 import {
   Controller,
   Get,
@@ -7,15 +8,22 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+
+//DTOS
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
+//Use Cases
+import { CreateUserUseCase } from '../usecases/createUser.usecase';
+
 @Controller('user')
 export class UserController {
-  constructor() {}
+  constructor(private readonly createUserUseCase: CreateUserUseCase) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {}
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.createUserUseCase.execute(createUserDto);
+  }
 
   @Get()
   findAll() {}
