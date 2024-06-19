@@ -28,7 +28,10 @@ export class OrderTypeOrmRepository {
 
     return await this.OrderRepository.save(newOrder);
   }
-  //   findAll() {}
+
+  async findAll() {
+    return await this.OrderRepository.find();
+  }
   //   findById(user_id: number) {}
   //   update(data: any) {}
 }

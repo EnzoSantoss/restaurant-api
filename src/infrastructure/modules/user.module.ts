@@ -13,11 +13,15 @@ import { UserTypeOrmRepository } from '../database/repositories/user.repository'
 
 //Use Cases
 import { CreateUserUseCase } from 'src/application/user/usecases/createUser.usecase';
+import { FindUserUseCase } from 'src/application/user/usecases/findUsers.usecase';
+import { FindUserByIdUseCase } from 'src/application/user/usecases/findUserById.usecase';
 
 @Module({
   controllers: [UserController],
   providers: [
     CreateUserUseCase,
+    FindUserUseCase,
+    FindUserByIdUseCase,
     UserTypeOrmRepository,
     {
       provide: 'user_repository',
