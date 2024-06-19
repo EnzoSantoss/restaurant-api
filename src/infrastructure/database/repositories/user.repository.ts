@@ -45,7 +45,15 @@ export class UserTypeOrmRepository implements IUserRepository {
 
     return user;
   }
-  update(data: any) {}
+  async update(user_id: number, data: any) {
+    await this.userRepository.update(user_id, data);
+
+    return await this.userRepository.findOne({
+      where: {
+        user_id,
+      },
+    });
+  }
 
   //- - Query Raw - -
   private async queryRawUserById(user_id: number) {
@@ -60,6 +68,7 @@ export class UserTypeOrmRepository implements IUserRepository {
   }
 
   private async queryRawUserOrders(user_id: number) {
+    //Order é uma palavra reservada no mysql, então é necessario colocar esse \'\' na palavra
     const data = await this.connection.query(`
       SELECT 
       order_id

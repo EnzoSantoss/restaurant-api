@@ -1,13 +1,5 @@
 //Nest Imports
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
 
 //DTOS
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,6 +9,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserUseCase } from '../usecases/createUser.usecase';
 import { FindUserUseCase } from '../usecases/findUsers.usecase';
 import { FindUserByIdUseCase } from '../usecases/findUserById.usecase';
+import { UpdateUseCase } from '../usecases/updateUser.usecase';
 
 @Controller('user')
 export class UserController {
@@ -24,6 +17,7 @@ export class UserController {
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly findUserUseCase: FindUserUseCase,
     private readonly findUserByIdUseCase: FindUserByIdUseCase,
+    private readonly updateUseCase: UpdateUseCase,
   ) {}
 
   @Post()
@@ -41,9 +35,8 @@ export class UserController {
     return this.findUserByIdUseCase.execute(id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {}
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {}
+  @Patch(':id')
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.updateUseCase.execute(id, updateUserDto);
+  }
 }

@@ -15,6 +15,7 @@ import { UserTypeOrmRepository } from '../database/repositories/user.repository'
 import { CreateUserUseCase } from 'src/application/user/usecases/createUser.usecase';
 import { FindUserUseCase } from 'src/application/user/usecases/findUsers.usecase';
 import { FindUserByIdUseCase } from 'src/application/user/usecases/findUserById.usecase';
+import { UpdateUseCase } from 'src/application/user/usecases/updateUser.usecase';
 
 @Module({
   controllers: [UserController],
@@ -22,6 +23,7 @@ import { FindUserByIdUseCase } from 'src/application/user/usecases/findUserById.
     CreateUserUseCase,
     FindUserUseCase,
     FindUserByIdUseCase,
+    UpdateUseCase,
     UserTypeOrmRepository,
     {
       provide: 'user_repository',
