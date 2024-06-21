@@ -13,6 +13,9 @@ import { User } from './infrastructure/database/models/user.model';
 import { Food } from './infrastructure/database/models/food.model';
 import { Order } from './infrastructure/database/models/order.model';
 
+//RabbitMq
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -28,6 +31,20 @@ import { Order } from './infrastructure/database/models/order.model';
       database: process.env.DB_NAME,
       entities: [User, Food, Order],
       synchronize: true,
+    }),
+    RabbitMQModule.forRoot(RabbitMQModule, {
+      exchanges: [
+        {
+          name: 'ronaldinho',
+          type: 'direct',
+        },
+        {
+          name: 'craque',
+          type: 'fanout',
+        },
+      ],
+      uri: 'amqp://ozne123:password@localhost:5672', // trocar a url quando usar o dockercompose amqp://user:password@rabbitmq:5672
+      prefetchCount: 1, // Espera um terminar de salvar para só depois ir para o proximo
     }),
   ],
   // controllers: [],
