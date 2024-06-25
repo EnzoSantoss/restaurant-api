@@ -35,11 +35,15 @@ import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [
         {
-          name: 'ronaldinho',
+          name: 'order',
           type: 'direct',
         },
         {
-          name: 'craque',
+          name: 'check-order',
+          type: 'direct',
+        },
+        {
+          name: 'fanout-teste',
           type: 'fanout',
         },
       ],

@@ -24,10 +24,10 @@ export class OrderController {
     private readonly findOrderByIdUseCase: FindOrderByIdUseCase,
   ) {}
 
-  @Post()
-  create(@Body() createOrderDto: any) {
-    return this.createOrderUseCase.execute(createOrderDto);
-  }
+  // @Post()
+  // create(@Body() createOrderDto: any) {
+  //   return this.createOrderUseCase.execute(createOrderDto);
+  // }
 
   @Get()
   getAll() {

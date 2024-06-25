@@ -15,6 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 //Use Cases
 import { CreateOrderUseCase } from 'src/application/order/usecases/createOrder.usecase';
+import { CheckOrderUseCase } from 'src/application/order/usecases/checkOrder.usecase';
 import { FindOrdersUseCase } from 'src/application/order/usecases/findOrders.usecase';
 import { FindOrderByIdUseCase } from 'src/application/order/usecases/findOrderById.usecase';
 
@@ -23,11 +24,12 @@ import { FindOrderByIdUseCase } from 'src/application/order/usecases/findOrderBy
   exports: [],
   providers: [
     CreateOrderUseCase,
+    CheckOrderUseCase,
     FindOrdersUseCase,
     FindOrderByIdUseCase,
     OrderTypeOrmRepository,
     {
-      provide: 'oder_repository',
+      provide: 'order_repository',
       useExisting: OrderTypeOrmRepository,
     },
   ],
