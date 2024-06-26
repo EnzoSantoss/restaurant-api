@@ -12,6 +12,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './infrastructure/database/models/user.model';
 import { Food } from './infrastructure/database/models/food.model';
 import { Order } from './infrastructure/database/models/order.model';
+import { Transaction } from './infrastructure/database/models/transaction.model';
 
 //RabbitMq
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
@@ -29,7 +30,7 @@ import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [User, Food, Order],
+      entities: [User, Food, Order, Transaction],
       synchronize: true,
     }),
     RabbitMQModule.forRoot(RabbitMQModule, {

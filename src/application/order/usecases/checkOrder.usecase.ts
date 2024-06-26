@@ -34,16 +34,13 @@ export class CheckOrderUseCase {
     //usar a entidade
 
     try {
-      const { data } = rabbitData;
-
       console.log('VERIFICANDO DISPONIBILIDADE');
-      console.log(data);
-      await this.wait(10000);
+      console.log(rabbitData);
       console.log('DONE');
     } catch (e) {
       //Caso der erro ao ler a mensagem da fila,ela não sera recolado na fila dnv
-      //Sem new Nack(true), a mensagem volta para fila
-      new Nack(true);
+      //Sem new Nack(false), a mensagem volta para fila
+      //new Nack(false);
     }
 
     return;

@@ -6,31 +6,23 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import { Order } from './order.model';
-
 @Entity()
-export class Food {
+export class Transaction {
   @PrimaryGeneratedColumn()
-  food_id: number;
+  transaction_id: number;
 
   @Column()
-  name: string;
+  status: string;
+
+  @Column({ type: 'boolean' })
+  retry: boolean;
 
   @Column({ type: 'longtext' })
   description: string;
-
-  @Column({ type: 'double' })
-  price: number;
-
-  @Column({ type: 'int' })
-  stock_qtd: number;
 
   @CreateDateColumn()
   createdAt: Date;
 
   @CreateDateColumn()
   updatedAt: Date;
-
-  @OneToMany(() => Order, (order) => order.food)
-  orders: Order[];
 }

@@ -10,7 +10,7 @@ import { Nack, RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
 @Injectable()
 export class CreateOrderUseCase {
   constructor(
-    @Inject('oder_repository')
+    @Inject('order_repository')
     private readonly orderRepository: IOrderRepository,
   ) {}
 
@@ -23,19 +23,16 @@ export class CreateOrderUseCase {
     //usar a entidade
 
     try {
+      console.log('SALVANDO NO BANCO');
       const { data } = rabbitData;
 
-      console.log('SALVANDO NO BANCO');
-      console.log(data);
-      await this.wait(1000);
-      //await this.orderRepository.create(data);
+      return await this.orderRepository.create(data);
     } catch (e) {
       //Caso der erro ao ler a mensagem da fila,ela não sera recolado na fila dnv
-      //Sem new Nack(true), a mensagem volta para fila
-      new Nack(true);
+      //Sem new Nack(false), a mensagem volta para fila
+      console.log(e);
+      return new Nack(false);
     }
-
-    return;
   }
 
   private wait(ms: number) {

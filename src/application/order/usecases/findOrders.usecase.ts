@@ -7,7 +7,7 @@ import { IOrderRepository } from 'src/domain/repositories/order.repository';
 @Injectable()
 export class FindOrdersUseCase {
   constructor(
-    @Inject('oder_repository')
+    @Inject('order_repository')
     private readonly orderRepository: IOrderRepository,
   ) {}
 
