@@ -5,10 +5,12 @@ import {
   CreateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 
 import { User } from './user.model';
 import { Food } from './food.model';
+import { Transaction } from './transaction.model';
 
 @Entity()
 export class Order {
@@ -25,6 +27,9 @@ export class Order {
   @ManyToOne(() => Food, (food) => food.orders)
   @JoinColumn({ name: 'food_id' })
   food: Food;
+
+  @OneToOne(() => Transaction, (transaction) => transaction.order)
+  transaction: Transaction;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -3,8 +3,11 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  OneToMany,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import { Order } from './order.model';
 
 @Entity()
 export class Transaction {
@@ -25,4 +28,8 @@ export class Transaction {
 
   @CreateDateColumn()
   updatedAt: Date;
+
+  @OneToOne(() => Order, (order) => order.transaction)
+  @JoinColumn({ name: 'order_id' })
+  order: Order;
 }

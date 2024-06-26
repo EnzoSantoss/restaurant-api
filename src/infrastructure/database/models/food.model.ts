@@ -22,7 +22,7 @@ export class Food {
   @Column({ type: 'double' })
   price: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 10 })
   stock_qtd: number;
 
   @CreateDateColumn()
