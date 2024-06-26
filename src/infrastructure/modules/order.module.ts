@@ -6,10 +6,12 @@ import { OrderController } from '../../application/order/controller/order.contro
 
 //Models
 import { Order } from '../database/models/order.model';
+import { Transaction } from '../database/models/transaction.model';
+import { Food } from '../database/models/food.model';
 
 //Repositories
 import { OrderTypeOrmRepository } from '../database/repositories/order.repository';
-
+import { FoodTypeOrmRepository } from '../database/repositories/food.repository';
 //External Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -28,11 +30,16 @@ import { FindOrderByIdUseCase } from 'src/application/order/usecases/findOrderBy
     FindOrdersUseCase,
     FindOrderByIdUseCase,
     OrderTypeOrmRepository,
+    FoodTypeOrmRepository,
     {
       provide: 'order_repository',
       useExisting: OrderTypeOrmRepository,
     },
+    {
+      provide: 'food_repository',
+      useExisting: FoodTypeOrmRepository,
+    },
   ],
-  imports: [TypeOrmModule.forFeature([Order])],
+  imports: [TypeOrmModule.forFeature([Order, Transaction, Food])],
 })
 export class OrderModule {}

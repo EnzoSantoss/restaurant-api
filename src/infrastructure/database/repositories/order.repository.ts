@@ -60,7 +60,7 @@ export class OrderTypeOrmRepository {
 
     const order = await this.OrderRepository.findOne({
       where: { order_id },
-      relations: ['food', 'user'],
+      relations: ['food', 'user', 'order'],
     });
 
     return order;

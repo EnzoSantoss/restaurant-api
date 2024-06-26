@@ -23,10 +23,10 @@ export class CreateOrderUseCase {
     //usar a entidade
 
     try {
-      console.log('SALVANDO NO BANCO');
+      //console.log('SALVANDO NO BANCO');
       const { data } = rabbitData;
 
-      return await this.orderRepository.create(data);
+      //return await this.orderRepository.create(data);
     } catch (e) {
       //Caso der erro ao ler a mensagem da fila,ela não sera recolado na fila dnv
       //Sem new Nack(false), a mensagem volta para fila

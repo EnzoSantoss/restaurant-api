@@ -12,7 +12,7 @@ import { User } from './user.model';
 import { Food } from './food.model';
 import { Transaction } from './transaction.model';
 
-@Entity()
+@Entity({ name: 'orders' })
 export class Order {
   @PrimaryGeneratedColumn()
   order_id: number;
