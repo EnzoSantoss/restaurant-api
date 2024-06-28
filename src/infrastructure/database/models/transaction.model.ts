@@ -17,19 +17,22 @@ export class Transaction {
   @Column()
   status: string;
 
-  @Column({ type: 'boolean' })
+  @Column({ type: 'boolean', default: false })
   retry: boolean;
+
+  @Column({ type: 'decimal' })
+  value: number;
 
   @Column({ type: 'longtext' })
   description: string;
+
+  @OneToOne(() => Order, (order) => order.transaction)
+  @JoinColumn({ name: 'order_id' })
+  order: Order;
 
   @CreateDateColumn()
   createdAt: Date;
 
   @CreateDateColumn()
   updatedAt: Date;
-
-  @OneToOne(() => Order, (order) => order.transaction)
-  @JoinColumn({ name: 'order_id' })
-  order: Order;
 }

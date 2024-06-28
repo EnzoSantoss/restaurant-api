@@ -1,3 +1,9 @@
+export type CheckOrderType = {
+  totalPrice: number;
+  isAvailable: boolean;
+  quantity: number;
+};
+
 export class FoodEntity {
   name: string;
   description: string;
@@ -13,35 +19,41 @@ export class FoodEntity {
     this.price = price;
   }
 
-  setFoodId(food_id: number) {
+  public setFoodId(food_id: number) {
     this.food_id = food_id;
   }
-  setStock(stock_qtd: number) {
+  public setStock(stock_qtd: number) {
     this.stock_qtd = stock_qtd;
   }
 
-  setFullProduct(
-    food_id: number,
-    stock_qtd: number,
-    updatedAt: Date,
-    createdAt: Date,
-  ) {
-    this.food_id = food_id;
-    this.stock_qtd = stock_qtd;
+  public getName(): string {
+    return this.name;
+  }
+  public getStock(): number {
+    return this.stock_qtd;
+  }
+  public getFoodId(): number {
+    return this.food_id;
   }
 
-  checkOrder(quantity: number) {
-    //Calcular se existe produto disponivel no estoque
+  public checkOrder(quantity: number): CheckOrderType {
+    const isAvailable = this.stock_qtd - quantity >= 0 ? true : false;
+    const totalPrice = this.calculatePrice(quantity);
+
+    if (isAvailable) {
+      this.stock_qtd = this.stock_qtd - quantity;
+    }
+
+    return {
+      totalPrice,
+      isAvailable,
+      quantity,
+    };
+  }
+
+  private calculatePrice(quantity: number) {
+    const totalPrice = quantity * this.price;
+
+    return totalPrice;
   }
 }
-
-// { quantity: 1, user_id: 1, food_id: 1 }
-// Food {
-//   food_id: 1,
-//   name: 'Salmão',
-//   description: 'Salmão massa',
-//   price: 100,
-//   stock_qtd: 10,
-//   createdAt: 2024-06-27T00:56:07.351Z,
-//   updatedAt: 2024-06-27T00:56:07.351Z
-// }

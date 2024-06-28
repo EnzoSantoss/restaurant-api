@@ -31,8 +31,6 @@ export class OrderTypeOrmRepository {
   ) {}
 
   async create(data: any) {
-    console.log(data);
-
     const newOrder = new Order();
 
     newOrder.quantity = data?.quantity;

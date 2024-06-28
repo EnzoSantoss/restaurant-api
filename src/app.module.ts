@@ -33,24 +33,6 @@ import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
       entities: [User, Food, Order, Transaction],
       synchronize: true,
     }),
-    RabbitMQModule.forRoot(RabbitMQModule, {
-      exchanges: [
-        {
-          name: 'order',
-          type: 'direct',
-        },
-        {
-          name: 'check-order',
-          type: 'direct',
-        },
-        {
-          name: 'fanout-teste',
-          type: 'fanout',
-        },
-      ],
-      uri: 'amqp://ozne123:password@localhost:5672', // trocar a url quando usar o dockercompose amqp://user:password@rabbitmq:5672
-      prefetchCount: 1, // Espera um terminar de salvar para só depois ir para o proximo
-    }),
   ],
   // controllers: [],
   // providers: [],

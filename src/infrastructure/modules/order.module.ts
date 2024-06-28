@@ -12,8 +12,13 @@ import { Food } from '../database/models/food.model';
 //Repositories
 import { OrderTypeOrmRepository } from '../database/repositories/order.repository';
 import { FoodTypeOrmRepository } from '../database/repositories/food.repository';
+import { TransactionTypeOrmRepository } from '../database/repositories/transaction.repository';
+
 //External Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
+
+//RabbitMq
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 
 //Use Cases
 import { CreateOrderUseCase } from 'src/application/order/usecases/createOrder.usecase';
@@ -31,6 +36,7 @@ import { FindOrderByIdUseCase } from 'src/application/order/usecases/findOrderBy
     FindOrderByIdUseCase,
     OrderTypeOrmRepository,
     FoodTypeOrmRepository,
+    TransactionTypeOrmRepository,
     {
       provide: 'order_repository',
       useExisting: OrderTypeOrmRepository,
@@ -39,7 +45,31 @@ import { FindOrderByIdUseCase } from 'src/application/order/usecases/findOrderBy
       provide: 'food_repository',
       useExisting: FoodTypeOrmRepository,
     },
+    {
+      provide: 'transaction_repository',
+      useExisting: TransactionTypeOrmRepository,
+    },
   ],
-  imports: [TypeOrmModule.forFeature([Order, Transaction, Food])],
+  imports: [
+    TypeOrmModule.forFeature([Order, Transaction, Food]),
+    RabbitMQModule.forRoot(RabbitMQModule, {
+      exchanges: [
+        {
+          name: 'order',
+          type: 'direct',
+        },
+        {
+          name: 'check-order',
+          type: 'direct',
+        },
+        {
+          name: 'fanout-teste',
+          type: 'fanout',
+        },
+      ],
+      uri: 'amqp://ozne123:password@localhost:5672', // trocar a url quando usar o dockercompose amqp://user:password@rabbitmq:5672
+      prefetchCount: 1, // Espera um terminar de salvar para só depois ir para o proximo
+    }),
+  ],
 })
 export class OrderModule {}

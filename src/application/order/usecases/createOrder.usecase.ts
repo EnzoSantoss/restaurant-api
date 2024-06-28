@@ -5,13 +5,18 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IOrderRepository } from 'src/domain/repositories/order.repository';
 
 //Testando Rabbit Mq
-import { Nack, RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
+import {
+  Nack,
+  RabbitSubscribe,
+  AmqpConnection,
+} from '@golevelup/nestjs-rabbitmq';
 
 @Injectable()
 export class CreateOrderUseCase {
   constructor(
     @Inject('order_repository')
     private readonly orderRepository: IOrderRepository,
+    private readonly amqpConnection: AmqpConnection,
   ) {}
 
   @RabbitSubscribe({
@@ -20,13 +25,17 @@ export class CreateOrderUseCase {
     queue: 'request', // Nome da sua fila
   })
   async execute(rabbitData: any) {
-    //usar a entidade
-
     try {
-      //console.log('SALVANDO NO BANCO');
       const { data } = rabbitData;
+      console.log('Salvando no banco');
 
-      //return await this.orderRepository.create(data);
+      //Salvando no bando
+      const order = await this.orderRepository.create(data);
+
+      //Direcionando para fila de transaction
+      this.amqpConnection.publish('check-order', 'q2', {
+        ...order,
+      });
     } catch (e) {
       //Caso der erro ao ler a mensagem da fila,ela não sera recolado na fila dnv
       //Sem new Nack(false), a mensagem volta para fila
