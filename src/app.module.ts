@@ -15,7 +15,7 @@ import { Order } from './infrastructure/database/models/order.model';
 import { Transaction } from './infrastructure/database/models/transaction.model';
 
 //RabbitMq
-import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
+//import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 
 @Module({
   imports: [

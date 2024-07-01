@@ -71,13 +71,18 @@ export class UserTypeOrmRepository implements IUserRepository {
     //Order é uma palavra reservada no mysql, então é necessario colocar esse \'\' na palavra
     const data = await this.connection.query(`
       SELECT 
-      order_id
-      quantity
-      createdAt
-      FROM \`order\`
+      orders.order_id,
+      orders.quantity,
+      transaction.status,
+      transaction.value AS 'total_price',
+      transaction.description,
+      orders.createdAt
+      FROM orders
       JOIN food
-      ON \`order\`.food_id = food.food_id
-      WHERE \`order\`.user_id = ${user_id}
+      ON orders.food_id = food.food_id
+      JOIN transaction
+      ON transaction.order_id = orders.order_id
+      WHERE orders.user_id = ${user_id}
       `);
     return data as unknown as {
       order_id: number;

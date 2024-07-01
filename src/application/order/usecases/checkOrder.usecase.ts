@@ -45,6 +45,7 @@ export class CheckOrderUseCase {
   })
   async execute(rabbitData: any) {
     try {
+      console.log('GERANDO TRANSAÇÃO');
       const { food, quantity, order_id } = rabbitData;
 
       const dbReturn = await this.foodRepository.findById(food.food_id);
@@ -60,11 +61,15 @@ export class CheckOrderUseCase {
 
       const checkOrder = orderFood.checkOrder(quantity);
 
+      await this.wait(5000);
+
       if (checkOrder.isAvailable) {
         await this.upadateFoodStock(
           orderFood.getFoodId(),
           orderFood.getStock(),
         );
+        await this.createTransaction(orderFood, checkOrder, order_id);
+      } else {
         await this.createTransaction(orderFood, checkOrder, order_id);
       }
     } catch (e) {
@@ -78,7 +83,7 @@ export class CheckOrderUseCase {
   }
 
   private async upadateFoodStock(food_id: number, currentStock: number) {
-    //await this.foodRepository.update(food_id, { stock_qtd: currentStock });
+    await this.foodRepository.update(food_id, { stock_qtd: currentStock });
   }
 
   private async createTransaction(

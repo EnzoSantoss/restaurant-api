@@ -58,7 +58,7 @@ export class OrderTypeOrmRepository {
 
     const order = await this.OrderRepository.findOne({
       where: { order_id },
-      relations: ['food', 'user', 'order'],
+      relations: ['food', 'user', 'transaction'],
     });
 
     return order;
@@ -68,20 +68,20 @@ export class OrderTypeOrmRepository {
   async queryRawOrders() {
     const order = await this.connection.query(`
       SELECT
-      \`order\`.order_id,
-      \`order\`.quantity,
-      \`order\`.createdAt,
+      \`orders\`.order_id,
+      \`orders\`.quantity,
+      \`orders\`.createdAt,
       food.food_id,
       food.name AS food_name,
       food.description,
       food.price,
       user.user_id,
       user.name AS user_name
-      FROM \`order\`
+      FROM \`orders\`
       JOIN user
-      ON \`order\`.user_id = user.user_id
+      ON \`orders\`.user_id = user.user_id
       JOIN food
-      ON \`order\`.food_id = food.food_id
+      ON \`orders\`.food_id = food.food_id
       `);
 
     return order;

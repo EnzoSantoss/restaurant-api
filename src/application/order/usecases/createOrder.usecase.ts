@@ -27,7 +27,7 @@ export class CreateOrderUseCase {
   async execute(rabbitData: any) {
     try {
       const { data } = rabbitData;
-      console.log('Salvando no banco');
+      console.log('SALVANDO NO BANCO');
 
       //Salvando no bando
       const order = await this.orderRepository.create(data);
