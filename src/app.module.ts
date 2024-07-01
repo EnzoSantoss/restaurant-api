@@ -17,6 +17,10 @@ import { Transaction } from './infrastructure/database/models/transaction.model'
 //RabbitMq
 //import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 
+//Redis
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -32,6 +36,17 @@ import { Transaction } from './infrastructure/database/models/transaction.model'
       database: process.env.DB_NAME,
       entities: [User, Food, Order, Transaction],
       synchronize: true,
+    }),
+    CacheModule.registerAsync({
+      isGlobal: true,
+      useFactory: async () => ({
+        store: await redisStore({
+          socket: {
+            host: 'localhost',
+            port: 6379,
+          },
+        }),
+      }),
     }),
   ],
   // controllers: [],
