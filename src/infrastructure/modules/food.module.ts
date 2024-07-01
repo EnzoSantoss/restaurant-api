@@ -10,6 +10,12 @@ import { Food } from '../database/models/food.model';
 //Repositories
 import { FoodTypeOrmRepository } from '../database/repositories/food.repository';
 
+//Cache
+import { FoodCacheRedis } from '../cache/food.cache';
+
+//Proxy
+import { FoodProxy } from '../proxy/food.proxy';
+
 //External Imports
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -27,9 +33,19 @@ import { UpdateFoodUseCase } from 'src/application/food/usecases/updateFood.usec
     FindFoodByIdUseCase,
     UpdateFoodUseCase,
     FoodTypeOrmRepository,
+    FoodCacheRedis,
+    FoodProxy,
     {
       provide: 'food_repository',
       useExisting: FoodTypeOrmRepository,
+    },
+    {
+      provide: 'food_cache',
+      useExisting: FoodCacheRedis,
+    },
+    {
+      provide: 'food_proxy',
+      useExisting: FoodProxy,
     },
   ],
   imports: [TypeOrmModule.forFeature([Food])],

@@ -37,6 +37,7 @@ import { redisStore } from 'cache-manager-redis-yet';
       entities: [User, Food, Order, Transaction],
       synchronize: true,
     }),
+
     CacheModule.registerAsync({
       isGlobal: true,
       useFactory: async () => ({
