@@ -61,7 +61,7 @@ export class CheckOrderUseCase {
 
       const checkOrder = orderFood.checkOrder(quantity);
 
-      await this.wait(5000);
+      //await this.wait(5000);
 
       if (checkOrder.isAvailable) {
         await this.upadateFoodStock(

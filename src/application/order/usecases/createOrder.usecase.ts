@@ -22,7 +22,7 @@ export class CreateOrderUseCase {
   @RabbitSubscribe({
     exchange: 'order',
     routingKey: 'q1',
-    queue: 'request', // Nome da sua fila
+    queue: 'request',
   })
   async execute(rabbitData: any) {
     try {

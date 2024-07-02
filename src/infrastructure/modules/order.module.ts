@@ -1,5 +1,6 @@
 //Nest Imports
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
 //Controller
 import { OrderController } from '../../application/order/controller/order.controller';
@@ -51,6 +52,7 @@ import { FindOrderByIdUseCase } from 'src/application/order/usecases/findOrderBy
     },
   ],
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forFeature([Order, Transaction, Food]),
     RabbitMQModule.forRoot(RabbitMQModule, {
       exchanges: [
@@ -67,9 +69,13 @@ import { FindOrderByIdUseCase } from 'src/application/order/usecases/findOrderBy
           type: 'fanout',
         },
       ],
-      uri: 'amqp://ozne123:password@localhost:5672', // trocar a url quando usar o dockercompose amqp://user:password@rabbitmq:5672
+      uri: `amqp://${process.env.RABBIT_USER}:${process.env.RABBIT_PASSWORD}@${process.env.RABBIT_HOST}:${process.env.RABBIT_PORT}`, // trocar a url quando usar o dockercompose amqp://user:password@rabbitmq:5672
       prefetchCount: 1, // Espera um terminar de salvar para só depois ir para o proximo
     }),
   ],
 })
 export class OrderModule {}
+
+//amqp://ozne123:password@localhost:5672
+
+//amqp://${process.env.RABBIT_USER}:${process.env.RABBIT_PASSWORD}@${process.env.RABBIT_HOST}:${process.env.RABBIT_PORT}

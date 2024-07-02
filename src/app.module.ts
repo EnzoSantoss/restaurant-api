@@ -30,7 +30,7 @@ import { redisStore } from 'cache-manager-redis-yet';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
-      port: 3307,
+      port: Number(process.env.DB_PORT),
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
@@ -43,8 +43,8 @@ import { redisStore } from 'cache-manager-redis-yet';
       useFactory: async () => ({
         store: await redisStore({
           socket: {
-            host: 'localhost',
-            port: 6379,
+            host: process.env.REDIS_HOST,
+            port: Number(process.env.REDIS_PORT),
           },
         }),
       }),
