@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+  my-app:
+    build: .
+    ports:
+      - 3003:3003
+    environment:
+      DB_USER: ozne
+      DB_PASSWORD: ozne123
+      DB_HOST: mysql
+      DB_NAME: restaurant_app
+      DB_PORT: 3306
+
+      RABBIT_USER: ozne123
+      RABBIT_PASSWORD: password
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: 5672
+
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+      APP_PORT: 3003
+
+    volumes:
+      - .:/app
+    restart: on-failure
+
+    depends_on:
+      rabbitmq:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    restart: always
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 20s
+      retries: 10
+    environment:
+      MYSQL_ROOT_PASSWORD: ozne123
+      MYSQL_DATABASE: restaurant_app
+      MYSQL_USER: ozne
+      MYSQL_PASSWORD: ozne123
+    command: --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    ports:
+      - 3307:3306
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: ozne123
+      RABBITMQ_DEFAULT_PASS: password
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:15672']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  redis:
+    container_name: redis
+    image: redis:7
+    restart: always
+    ports:
+      - '6379:6379'
